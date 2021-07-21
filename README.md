@@ -36,4 +36,11 @@
         <li>Joi</li>
       </ul>
     </li>
+    <li> Flash
+      <ul>
+        <li>session(res.locals)</li>
+        <li>connect-flash</li>
+        <li>req.flash('static', 'message')</li>
+      </ul>
+    </li>
 </ol>

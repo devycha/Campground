@@ -37,7 +37,8 @@ router.post(
     //   throw new ExpressError("inavlid campground data", 400);
     const campground = new Campground(req.body.campground);
     await campground.save();
-    res.redirect("campgrounds");
+    req.flash("success", "Successfully made a new campground");
+    res.redirect("/campgrounds");
   })
 );
 
@@ -45,6 +46,10 @@ router.get(
   "/:id/edit",
   catchAsync(async (req, res, next) => {
     const campground = await Campground.findById(req.params.id);
+    if (!campground) {
+      req.flash("error", "there is no campground");
+      return res.redirect("/campgrounds");
+    }
     res.render("campgrounds/edit", { campground });
   })
 );
@@ -62,6 +67,7 @@ router.put(
         new: true,
       }
     );
+    req.flash("success", "Successfully updated the campground!!");
     res.redirect(`/campgrounds/${updateCamp._id}`);
   })
 );
@@ -72,7 +78,16 @@ router.get(
     const campground = await Campground.findById(req.params.id).populate(
       "reviews"
     );
-    res.render("campgrounds/show", { campground });
+    if (!campground) {
+      req.flash("error", "there is no campground");
+      return res.redirect("/campgrounds");
+    }
+    let reviewAverage = 0;
+    for (let i = 0; i < campground.reviews.length; i++) {
+      reviewAverage += campground.reviews[i].rating;
+    }
+    reviewAverage = (reviewAverage / campground.reviews.length).toFixed(2);
+    res.render("campgrounds/show", { campground, reviewAverage });
   })
 );
 
@@ -82,6 +97,7 @@ router.delete(
     const { id } = req.params;
     console.log(id);
     const deleteCamp = await Campground.findByIdAndDelete(id);
+    req.flash("success", "Successfully delete it!!");
     res.redirect("/campgrounds");
   })
 );
