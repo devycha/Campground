@@ -20,7 +20,11 @@
                 </form>
             </div>
             <div class="card-footer text-muted">
-                평점: <%= reviewAverage %>/5.00
+                 <% if(reviewAverage > 0) { %>
+                    평점: <%= reviewAverage %>/ 5.00
+                     <% } else { %>
+                     리뷰가 아직 없습니다
+                     <% } %>      
             </div>
         </div>
 

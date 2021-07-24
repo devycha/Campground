@@ -3,6 +3,7 @@ const router = express.Router();
 
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/expressError");
+const { isLoggedIn } = require("../middleware");
 
 const Campground = require("../models/campground");
 const { campgroundSchema } = require("../schema");
@@ -25,12 +26,13 @@ router.get(
   })
 );
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new");
 });
 
 router.post(
   "/",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res, next) => {
     // if (!req.body.campground)
@@ -44,6 +46,7 @@ router.post(
 
 router.get(
   "/:id/edit",
+  isLoggedIn,
   catchAsync(async (req, res, next) => {
     const campground = await Campground.findById(req.params.id);
     if (!campground) {
@@ -56,6 +59,7 @@ router.get(
 
 router.put(
   "/:id",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res, next) => {
     const { id } = req.params;
@@ -74,6 +78,7 @@ router.put(
 
 router.get(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id).populate(
       "reviews"
@@ -93,6 +98,7 @@ router.get(
 
 router.delete(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res, next) => {
     const { id } = req.params;
     console.log(id);
