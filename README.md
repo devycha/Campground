@@ -14,13 +14,13 @@ bootstrap을 이용한 frontend와 nodejs와 npm을 활용한 backend의 기본 
 <p align="left">
   <sup>순서</sup>
   <br>
-  - ![Routing and Database](#Routing-and-Database)
-  - ![CRUD System](#CRUD-System)
-  - ![Error Handle](#Error-Handle)
-  - ![Review](#Review)
-  - ![Restructing and Refactoring](#Restructing-and-Refactoring)
-  - ![Flash](#Flash)
-  - ![Login/Logout](#Login/Logout)
+  - [!Routing and Database](#Routing-and-Database)
+  - [!CRUD System](#CRUD-System)
+  - [!Error Handle](#Error-Handle)
+  - [!Review](#Review)
+  - [!Restructing and Refactoring](#Restructing-and-Refactoring)
+  - [!Flash](#Flash)
+  - [!Login/Logout](#Login/Logout)
 </p>
 
 ---
@@ -57,6 +57,7 @@ bootstrap을 이용한 frontend와 nodejs와 npm을 활용한 backend의 기본 
 * `Routes Directory`
 * `Public Scripts`
 * `Joi`
+* `router.route()`
 
 ## Flash
 
@@ -88,3 +89,9 @@ req.session.returnTo = req.originalUrl
 const redirectURL = req.session.returnTo || "/campgrounds"; // login post
 res.redirect(redirectURL)
 ```
+
+## Image Upload
+
+* `Multer` - upload.array, upload.single...
+* `Cloudinary` - do not save in mongoDB because of its big size
+* `dotenv` - security
