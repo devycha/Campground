@@ -46,8 +46,7 @@ module.exports.validateReview = (req, res, next) => {
 
 module.exports.isReviewAuthor = async (req, res, next) => {
   const { id, reviewId } = req.params;
-  const review = await Revi;
-  ew.findById(reviewId);
+  const review = await Review.findById(reviewId);
   if (!review.author.equals(req.user._id)) {
     req.flash("error", "접근 권한이 없습니다");
     res.redirect(`/campgrounds/${id}`);
