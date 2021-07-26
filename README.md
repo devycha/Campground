@@ -14,15 +14,13 @@ bootstrap을 이용한 frontend와 nodejs와 npm을 활용한 backend의 기본 
 <p align="left">
   <sup>순서</sup>
   <br>
-  -[Routing and Database](#Routing-and-Database)
-  -[CRUD System](#CRUD-System)
-  -[Error Handle](#Error-Handle)
-  -[Review](#Review)
-  -[Restructing and Refactoring](#Restructing-and-Refactoring)
-  -[Flash](#Flash)
-  -[Login/Logout](#Login/Logout)
-  -[Authorization](#Authorization)
-  
+  - ![Routing and Database](#Routing-and-Database)
+  - ![CRUD System](#CRUD-System)
+  - ![Error Handle](#Error-Handle)
+  - ![Review](#Review)
+  - ![Restructing and Refactoring](#Restructing-and-Refactoring)
+  - ![Flash](#Flash)
+  - ![Login/Logout](#Login/Logout)
 </p>
 
 ---
@@ -63,19 +61,15 @@ bootstrap을 이용한 frontend와 nodejs와 npm을 활용한 backend의 기본 
 ## Flash
 
 * `Session` - res.locals
-* `Flash` - 'connect-flash' - res.locals.flash()
+* `Flash` - 'connect-flash' - res.locals.success or fail = res.flash("success or fail")
 * `express`
 
 ## Login/Logout
 
 * `Passport` - isAuthenticated(), Middleware
 ```js
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
