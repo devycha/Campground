@@ -7,6 +7,8 @@
                 <div class="col-md-4">
                     <% if (campground.images.length) { %> 
                     <img class="img-fluid" src="<%=campground.images[0].url%>" alt="">
+                    <% } else {%>
+                    <img class="img-fluid" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160402_19%2Fmaddara_1459606960178nrrdB_JPEG%2FUntitled-1.jpg&type=sc960_832" alt="">
                     <% } %> 
                 </div>
                 <div class="col-md-8">

@@ -1,15 +1,21 @@
 <% layout('layouts/boilerplate')%>
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
+
 <div class="row">
-    <div class="col-6">
+    <div class="col-6">        
+        <div id='map' style='width: 400px; height: 300px;'></div>
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <% campground.images.forEach((img, i) => {  %>
-                        <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
-                        <img src="<%=img.url%>" class="d-block w-100" alt="...">
-                    </div>
-                <% }) %>
+                <% if (campground.images.length) { %> 
+                    <% campground.images.forEach((img, i) => {  %>
+                            <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                            <img src="<%=img.url%>" class="d-block w-100" alt="...">
+                        </div>
+                    <% }) %>
+                <% } else { %> 
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160402_19%2Fmaddara_1459606960178nrrdB_JPEG%2FUntitled-1.jpg&type=sc960_832" alt="">
+                <% } %> 
             </div>
             <% if (campground.images.length > 1) { %>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -99,3 +105,10 @@
         <% } %>
     </div>
 </div>
+
+<script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const campground = <%-JSON.stringify(campground)%>
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>

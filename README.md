@@ -9,6 +9,7 @@ bootstrap을 이용한 frontend와 nodejs와 npm을 활용한 backend의 기본 
 * 로그인 & 로그아웃
 * 게시물 접근 권한 설정
 * 이미지 업로드, 표시 및 삭제(mongoDB와 cloudinary모두)
+* 지도 및 정보 표시
 
 ---
 
@@ -140,3 +141,38 @@ res.redirect(redirectURL)
   }  
   };
 ```
+
+## Map info
+
+* `mapbox` - 
+좌표 분석
+```js
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.campground.location,
+      limit: 1,
+    })
+    .send();
+```
+---
+지도 표시
+```js
+mapboxgl.accessToken = mapToken;
+const map = new mapboxgl.Map({
+  container: "map", // container ID
+  style: "mapbox://styles/mapbox/streets-v11", // style URL
+  center: campground.geometry.coordinates, // starting position [lng, lat]
+  zoom: 9, // starting zoom
+});
+
+new mapboxgl.Marker()
+  .setLngLat(campground.geometry.coordinates)
+  .setPopup(
+    new mapboxgl.Popup({ offset: 25 }).setHTML(
+      `<h5>${campground.title}</h5><p>${campground.location}</p>`
+    )
+  )
+  .addTo(map);
+``` 
