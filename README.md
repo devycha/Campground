@@ -101,6 +101,8 @@ res.redirect(redirectURL)
 
 * `cloudinary` - cloudinary.uploader.destroy(filename)
 ```js
+  ---
+  cloudinary
   const cloudinary = require("cloudinary").v2;
   const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
@@ -121,5 +123,20 @@ res.redirect(redirectURL)
   module.exports = {
     cloudinary,
     storage,
+```
+  ---
+  controllers
+  ---
+```js
+  const { cloudinary } = require("../cloudinary");
+
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages) {
+      await cloudinary.uploader.destroy(filename);
+    }
+    await updateCamp.updateOne({
+      $pull: { images: { filename: { $in: req.body.deleteImages } } },
+    });
+  }  
   };
 ```
