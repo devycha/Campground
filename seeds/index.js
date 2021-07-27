@@ -17,7 +17,7 @@ db.once("open", () => {
 const sample = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const seedDB = async () => {
   await Campground.deleteMany({});
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 10; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
     const price = Math.floor(Math.random() * 20 + 10);
     const camp = new Campground({
@@ -27,6 +27,16 @@ const seedDB = async () => {
       image: `https://source.unsplash.com/collection/483251`,
       description: "Lorem ipsum dolor sit amet",
       price: price,
+      images: [
+        {
+          url: "https://res.cloudinary.com/dnn6fwty6/image/upload/v1627316882/Campground/xflxpqh4ighkx8yao4lv.png",
+          filename: "xflxpqh4ighkx8yao4lv",
+        },
+        {
+          url: "https://res.cloudinary.com/dnn6fwty6/image/upload/v1627316881/Campground/kwceuabdh6nbwtjq81j2.png",
+          filename: "kwceuabdh6nbwtjq81j2",
+        },
+      ],
     });
     await camp.save();
   }

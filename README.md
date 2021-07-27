@@ -7,7 +7,8 @@ bootstrap을 이용한 frontend와 nodejs와 npm을 활용한 backend의 기본 
 * 게시물 작성
 * 게시물 댓글 및 평점 기능
 * 로그인 & 로그아웃
-* 게시물 접근 권한 설정 (예정)
+* 게시물 접근 권한 설정
+* 이미지 업로드, 표시 및 삭제(mongoDB와 cloudinary모두)
 
 ---
 
@@ -95,3 +96,30 @@ res.redirect(redirectURL)
 * `Multer` - upload.array, upload.single...
 * `Cloudinary` - do not save in mongoDB because of its big size
 * `dotenv` - security
+
+## Image Delete in mongo and cloudinary
+
+* `cloudinary` - cloudinary.uploader.destroy(filename)
+```js
+  const cloudinary = require("cloudinary").v2;
+  const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET,
+  });
+
+  const storage = new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "Campground",
+      allowedFormats: ["jpeg", "png", "jpg"],
+    },
+  });
+
+  module.exports = {
+    cloudinary,
+    storage,
+  };
+```

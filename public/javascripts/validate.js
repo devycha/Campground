@@ -1,4 +1,9 @@
+const { default: bsCustomFileInput } = require("bs-custom-file-input");
+const bsCustomFileInput = require("bs-custom-file-input");
+
 (function () {
+  bsCustomFileInput.init();
+
   const forms = document.querySelectorAll(".validated-form");
   Array.from(forms).forEach(function (form) {
     form.addEventListener(
