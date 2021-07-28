@@ -1,5 +1,5 @@
 mapboxgl.accessToken = mapToken;
-var map = new mapboxgl.Map({
+const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/dark-v10",
   center: [127.01917, 37.28417],
@@ -81,10 +81,10 @@ map.on("load", function () {
 
   // inspect a cluster on click
   map.on("click", "clusters", function (e) {
-    var features = map.queryRenderedFeatures(e.point, {
+    const features = map.queryRenderedFeatures(e.point, {
       layers: ["clusters"],
     });
-    var clusterId = features[0].properties.cluster_id;
+    const clusterId = features[0].properties.cluster_id;
     map
       .getSource("campgrounds")
       .getClusterExpansionZoom(clusterId, function (err, zoom) {
@@ -102,17 +102,8 @@ map.on("load", function () {
   // the location of the feature, with
   // description HTML from its properties.
   map.on("click", "unclustered-point", function (e) {
-    console.log(e.lngLat);
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var mag = e.features[0].properties.mag;
-    var tsunami;
-
-    if (e.features[0].properties.tsunami === 1) {
-      tsunami = "yes";
-    } else {
-      tsunami = "no";
-    }
-
+    const popUpText = e.features[0].properties.popUpMarkup;
+    const coordinates = e.features[0].geometry.coordinates.slice();
     // Ensure that if the map is zoomed out such that
     // multiple copies of the feature are visible, the
     // popup appears over the copy being pointed to.
@@ -120,19 +111,7 @@ map.on("load", function () {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
 
-    new mapboxgl.Popup()
-      .setLngLat(coordinates)
-      .setHTML("magnitude: " + mag + "<br>Was there a tsunami?: " + tsunami)
-      .addTo(map);
-    console.log(campgrounds);
-    let pop = [];
-    // for (let campground of campgrounds) {
-    //   if (
-    //     campground.features.geometry.coordinates == [e.lngLat.Lng, e.lngLat.Lat]
-    //   ) {
-    //     pop.push([]);
-    //   }
-    // }
+    new mapboxgl.Popup().setLngLat(coordinates).setHTML(popUpText).addTo(map);
 
     new mapboxgl.Popup().setLngLat(coordinates).setHTML("Title: ");
   });

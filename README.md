@@ -180,3 +180,10 @@ new mapboxgl.Marker()
 ## Cluster Map
 
 * `Mapbox` - East Sea와 Sea of Japan이 같이 표기되어있는 것을 보고 문의함.
+* 팝업창에 정보를 띄우기 위해서 Map에서 클릭한 정보와 mongoDB에 있는 정보를 비교하여 출력하려고 했지만
+  Map unclustered된 한 지점을 누를 때 마우스의 미세한 이동에 따라 위도경도가 바뀌어서 불가하다는 것을 깨달았음.
+* schema의 properties에 virtual메소드를 추가하려면 다음과 같이 옵션을 뒤에 추가해주어야 한다.
+```js
+const opts = { toJSON: { virtuals: true } };
+const sampleSchema = new Schema({}, opts);
+```
