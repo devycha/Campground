@@ -176,3 +176,7 @@ new mapboxgl.Marker()
   )
   .addTo(map);
 ``` 
+
+## Cluster Map
+
+* `Mapbox` - East Sea와 Sea of Japan이 같이 표기되어있는 것을 보고 문의함.
