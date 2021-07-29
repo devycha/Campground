@@ -240,4 +240,5 @@ module.exports.reviewSchema = Joi.object({
 
 ## Deploy
 * `Atlas`
-* `connect-mongodb-session`  
+* `connect-mongodb-session`
+* `heroku`
