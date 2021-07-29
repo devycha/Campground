@@ -14,6 +14,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const helmet = require("helmet");
+// const dbUrl = process.env.DB_URL;
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/campground";
+const MongoStore = require("connect-mongo");
 
 // security
 const mongoSanitize = require("express-mongo-sanitize");
@@ -22,8 +25,8 @@ const mongoSanitize = require("express-mongo-sanitize");
 const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
-
-mongoose.connect("mongodb://localhost:27017/campground", {
+// "mongodb://localhost:27017/campground"
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -37,8 +40,23 @@ db.once("open", () => {
   console.log("dbs connected");
 });
 
+const secret = process.env.SECRET || "dongjji";
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret,
+  },
+});
+
+store.on("error", function (e) {
+  console.log("session store error", e);
+});
+
 const sessionOptions = {
-  secret: "dongjji",
+  store,
+  secret,
   reesave: false,
   saveUninitialized: true,
   cookie: {

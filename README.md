@@ -237,3 +237,7 @@ module.exports.reviewSchema = Joi.object({
   }).required(),
 });
 ```
+
+## Deploy
+* `Atlas`
+* `connect-mongodb-session`  
