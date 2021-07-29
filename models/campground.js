@@ -46,7 +46,7 @@ const CampgroundSchema = new Schema(
 );
 
 CampgroundSchema.virtual("properties.popUpMarkup").get(function () {
-  return `<strong><a href="/campgrounds/${this._id}">${this.title}</a><strong>}
+  return `<strong><a href="/campgrounds/${this._id}">${this.title}</a><strong>
           <p class="text-muted">${this.price}원</p>
           <p>${this.description.substring(0, 20)}...</p>`;
 });

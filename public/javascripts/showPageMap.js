@@ -1,10 +1,21 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
-  container: "map", // container ID
+  container: "cluster-map", // container ID
   style: "mapbox://styles/mapbox/streets-v11", // style URL
   center: campground.geometry.coordinates, // starting position [lng, lat]
   zoom: 9, // starting zoom
 });
+
+map.addControl(
+  new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+  }),
+  "top-left"
+);
+
+map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.FullscreenControl(), "bottom-right");
 
 new mapboxgl.Marker()
   .setLngLat(campground.geometry.coordinates)

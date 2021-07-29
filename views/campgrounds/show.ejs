@@ -1,10 +1,13 @@
 <% layout('layouts/boilerplate')%>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/stars.css">
-
 
 <div class="row">
     <div class="col-6">        
-        <div id='map' style='width: 100%; height: 300px;'></div>
+        
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <% if (campground.images.length) { %> 
@@ -58,7 +61,9 @@
         </div>
 
     </div>
+    
     <div class="col-6">
+        <div id='cluster-map' style='width: 100%; height: 300px;'></div>
         <% if (currentUser) { %>
         <form action="/campgrounds/<%=campground._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
             <div class="mb-3">
@@ -108,6 +113,7 @@
 
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    console.log(mapToken);
     const campground = <%-JSON.stringify(campground)%>
 </script>
 

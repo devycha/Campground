@@ -26,7 +26,7 @@ module.exports.renderLoginPage = (req, res) => {
 
 module.exports.login = (req, res) => {
   const { username } = req.body;
-  const redirectURL = req.session.returnTo || "/campgrounds";
+  const redirectURL = req.session.returnTo || "/";
   delete req.session.returnTo;
   req.flash("success", `${username}님 환영합니다!`);
   res.redirect(redirectURL);
@@ -37,5 +37,5 @@ module.exports.logout = (req, res) => {
     req.logout();
     req.flash("success", "로그아웃 되었습니다.");
   }
-  res.redirect("/campgrounds");
+  res.redirect("/");
 };

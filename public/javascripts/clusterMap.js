@@ -1,6 +1,6 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
-  container: "map",
+  container: "cluster-map",
   style: "mapbox://styles/mapbox/dark-v10",
   center: [127.01917, 37.28417],
   zoom: 5,
@@ -115,6 +115,16 @@ map.on("load", function () {
 
     new mapboxgl.Popup().setLngLat(coordinates).setHTML("Title: ");
   });
+
+  map.addControl(
+    new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+    }),
+    "top-left"
+  );
+  map.addControl(new mapboxgl.NavigationControl());
+  map.addControl(new mapboxgl.FullscreenControl(), "bottom-right");
 
   map.on("mouseenter", "clusters", function () {
     map.getCanvas().style.cursor = "pointer";
