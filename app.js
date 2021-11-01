@@ -14,6 +14,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const helmet = require("helmet");
+// const dbUrl = process.env.DB_URL;
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/campground";
+const MongoStore = require("connect-mongo");
 
 // security
 const mongoSanitize = require("express-mongo-sanitize");
@@ -22,8 +25,8 @@ const mongoSanitize = require("express-mongo-sanitize");
 const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
-
-mongoose.connect("mongodb://localhost:27017/campground", {
+// "mongodb://localhost:27017/campground"
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -35,6 +38,20 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("dbs connected");
+});
+
+const secret = process.env.SECRET || "dongjji";
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret,
+  },
+});
+
+store.on("error", function (e) {
+  console.log("session store error", e);
 });
 
 const sessionOptions = {
@@ -73,8 +90,7 @@ const styleSrcUrls = [
 ];
 const connectSrcUrls = [
   "https://api.mapbox.com/",
-  "https://a.tiles.mapbox.com/",
-  "https://b.tiles.mapbox.com/",
+  "https://*.tiles.mapbox.com/",
   "https://events.mapbox.com/",
 ];
 const fontSrcUrls = [];
@@ -86,12 +102,13 @@ app.use(
       scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
       workerSrc: ["'self'", "blob:"],
+      childSrc: ["blob:"],
       objectSrc: [],
       imgSrc: [
         "'self'",
         "blob:",
         "data:",
-        "https://res.cloudinary.com/dnn6fwty6/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+        "https://res.cloudinary.com/dnn6fwty6/",
         "https://images.unsplash.com/",
       ],
       fontSrc: ["'self'", ...fontSrcUrls],
@@ -137,6 +154,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error", { err });
 });
 
-app.listen(3000, () => {
-  console.log("serving on port 3000");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`serving on port ${port}`);
 });
