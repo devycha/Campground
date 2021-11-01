@@ -39,7 +39,7 @@ db.once("open", () => {
 
 const sessionOptions = {
   secret: "dongjji",
-  reesave: false,
+  resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
