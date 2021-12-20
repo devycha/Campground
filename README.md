@@ -21,7 +21,7 @@ bootstrap을 이용한 frontend와 nodejs와 npm을 활용한 backend의 기본 
 ## Routing and Database
 
 * `express`
-* `mongoose` - mongoose.connection("mongodb://localhost:27017/")
+* `mongoose` - Atlas, MongoDB
 
 ## CRUD System
 
