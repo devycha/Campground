@@ -25,7 +25,7 @@ bootstrap을 이용한 frontend와 nodejs와 npm을 활용한 backend의 기본 
 
 ## CRUD System
 
-* `Shcema` - mognoose.model
+* `Schema` - mognoose.model
 * `ejs` - views
 * `method-override` - Create, Read, Update, Delete
 * `path` - basic path of views
